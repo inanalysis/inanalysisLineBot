@@ -14,8 +14,8 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, FollowEvent
 )
 
-line_bot_api = LineBotApi('2bgWsnCNsHxgZ84kQC8OUY/1Xnw1g3cKM4q8L7bOUqi4a3qgr80p8uY/2C0ynPZ/zbS3+vLpGT3zvNbESL+cQbkTY7vVlygpQ4wa/P6aHIbONoZLrI55oRAB4gftkPKk/rWiag0gGwGRTdJ3xQCulQdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('fc6da215620b26fb6c6336537233c0b9')
+line_bot_api = LineBotApi('tdvAI79PokntER3cHHf/hYXyiBUjh+3xXnN58j8HUI1GvBxZ2Dg08rBekpvTUbind9k+K45I351W4HcIscGl9CJu//BiMY65PbVnFycJyzkX6YTta5FuxFY+tEBAxn1VFmmTnrUZdp6SL7mjF4I03QdB04t89/1O/w1cDnyilFU=')
+handler = WebhookHandler('f04e554110231e0e4e14fc88e362421e')
 
 app = Flask(__name__)
 
@@ -67,5 +67,9 @@ def submit():
         line_bot_api.push_message(request.values.get('lineID'), TextSendMessage(text=f"您的RPA流程已完成\n狀態: {request.values.get('status')}"))
         return 'success'
 
+@app.route("/test",methods=['POST'])
+def test():
+    return 'success'
+
 if __name__ == '__main__':
-   app.run(port=8005)
+   app.run(host='0.0.0.0', port='8005',ssl_context=('bundle.crt','private.key'))
