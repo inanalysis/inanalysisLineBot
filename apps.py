@@ -11,7 +11,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, FollowEvent
+    MessageEvent, TextMessage, TextSendMessage, FollowEvent, ImageSendMessage
 )
 
 line_bot_api = LineBotApi('tdvAI79PokntER3cHHf/hYXyiBUjh+3xXnN58j8HUI1GvBxZ2Dg08rBekpvTUbind9k+K45I351W4HcIscGl9CJu//BiMY65PbVnFycJyzkX6YTta5FuxFY+tEBAxn1VFmmTnrUZdp6SL7mjF4I03QdB04t89/1O/w1cDnyilFU=')
@@ -65,7 +65,12 @@ def handle_follow(event):
 def submit():
     if request.method == 'POST':
         line_bot_api.push_message(request.values.get('lineID'), TextSendMessage(text=f"您的RPA流程已完成\n狀態: {request.values.get('status')}"))
-        return 'success'
+        if request.values.get('status') == 'success':
+            line_bot_api.push_message(request.values.get('lineID'), TextSendMessage(text='使用資料視覺化模組進行預覽'))
+            line_bot_api.push_message(request.values.get('lineID'), ImageSendMessage(original_content_url=f"{request.values.get('imgUrl')}",
+            preview_image_url=f"{request.values.get('imgUrl')}"))
+            #line_bot_api.push_message(request.values.get('lineID'), TextSendMessage(text=f"{request.values.get('imgUrl')}"))
+    return 'success'
 
 @app.route("/test",methods=['POST'])
 def test():
